@@ -17,8 +17,6 @@
 
 <body>
     <div class="container text-center">
-
-
         <div id="name">
 
         </div>
@@ -29,6 +27,16 @@
 
         </div>
     </div>
+
+    <form class="text-center">
+        <input type="nom" name="nom" value="nom" id="nom">
+        <input type="type" name="type" value="type" id="type">
+        <input type="button" value="insertion" id="insertion">
+    </form>
+    
+    <div id="nouveauNom"></div>
+    <div id="nouveauType"></div>
+
     <script>
         $.ajax({
             url: "/database",
@@ -37,9 +45,29 @@
             console.log(data)
             $("#name").append("nom : " + data.name)
             $("#genre").append("genre : " + data.genre)
-            $("#id").append("numero : " + data._id)
+            $("#id").append("id : " + data._id)
+            $("#age").append("age : " + data._age)
         }).fail(function () {
             console.log("erreur")
+        });
+
+        $(document).ready(function () {
+            $("#insertion").click(function () {
+                var nom = $("#nom").val();
+                var type = $("#type").val();
+                // console.log("ok");
+                $.ajax({
+                    method: "POST",
+                    url: "http://localhost:3005/formulaire",
+                    data: { name: nom, type1: type }
+                }).done(function (result) {
+                   $("#nouveauNom").append("nom" + result.name)
+                //    $("#nouveauType").append("type" + result.type)
+                // console.log(result)
+                }).fail(function (x, b) {
+                    console.log("erreur");
+                })
+            });
         });
     </script>
 
